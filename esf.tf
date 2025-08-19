@@ -171,14 +171,15 @@ resource "aws_s3_object" "config-file" {
 
 resource "terraform_data" "curl-dependencies-zip" {
   provisioner "local-exec" {
-    command = "curl -L -O ${local.dependencies-bucket-url}/${local.dependencies-file}"
+    command     = "curl -L -O ${local.dependencies-bucket-url}/${local.dependencies-file}"
+    working_dir = "${path.root}/.terraform/"
   }
 }
 
 resource "aws_s3_object" "dependencies-file" {
   bucket = local.config-bucket-name
   key    = local.dependencies-file
-  source = local.dependencies-file
+  source = "${path.root}/.terraform/${local.dependencies-file}"
 
   depends_on = [aws_s3_bucket.esf-config-bucket, terraform_data.curl-dependencies-zip]
 }
