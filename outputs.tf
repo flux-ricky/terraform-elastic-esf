@@ -30,4 +30,7 @@ output "esf-replay-queue" {
   description = "Name of the ESF replay queue."
 }
 
-
+output "esf-lambda-function-arn" {
+  value       = module.esf-lambda-function.lambda_function_arn
+  description = "ARN of the ESF Lambda function."
+}
